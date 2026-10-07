@@ -28,10 +28,11 @@ public class BSUIDTest {
             BSUID.fromString("AR.123145124155A141551451515154246525246t2341351351351235131344635879245789245782578923457892347345236337352452356347345234134134162463245234");
         });
 
-
         assertThrows(NullPointerException.class, () -> {
             BSUID.fromString(null);
         });
+
+
     }
 
     @Test
@@ -42,6 +43,7 @@ public class BSUIDTest {
 
         assertTrue(BSUID.itIsAnBSUID("US.13491208655302741918"));
 
+        assertEquals("US", BSUID.fromString("US.13491208655302741918").region());
 
     }
 }

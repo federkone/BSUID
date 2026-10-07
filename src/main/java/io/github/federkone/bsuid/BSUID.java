@@ -27,9 +27,11 @@ public final class BSUID implements java.io.Serializable, Comparable<BSUID>{
     private static Set<String> ISO_COUNTRIES = Set.of(Locale.getISOCountries());
 
     private final String stringBSUID;
+    private final String region;
 
-    private BSUID(String stringBSUID) {
+    private BSUID(String stringBSUID, String region) {
         this.stringBSUID = stringBSUID;
+        this.region = region;
     }
 
     /**
@@ -46,13 +48,13 @@ public final class BSUID implements java.io.Serializable, Comparable<BSUID>{
         if (!validPattern) {
             throw new InvalidBSUIDException("Invalid pattern for BSUID");
         }
-        String country = matcher.group(1);
-        boolean validCountry = ISO_COUNTRIES.contains(country);
+        String region = matcher.group(1);
+        boolean validCountry = ISO_COUNTRIES.contains(region);
         if (!validCountry) {
             throw new InvalidBSUIDException("Invalid country for BSUID");
         }
 
-        return new BSUID(input);
+        return new BSUID(input,region);
     }
 
     /**
@@ -82,6 +84,13 @@ public final class BSUID implements java.io.Serializable, Comparable<BSUID>{
      * */
     public String value(){
         return stringBSUID;
+    }
+
+    /**
+     * @return String region from this BSUID, e.g.: "US"
+     * */
+    public String region(){
+        return region;
     }
 
     /**

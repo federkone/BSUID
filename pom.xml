@@ -6,7 +6,7 @@
 
     <groupId>io.github.federkone</groupId>
     <artifactId>BSUID</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 
     <name>BSUID</name>
     <description>Utility class for data type BSUID by meta.</description>
