@@ -32,6 +32,11 @@ public class BSUIDTest {
             BSUID.fromString(null);
         });
 
+        assertThrows(InvalidBSUIDException.class, () -> {
+            BSUID.fromString("AR.abc.123145124155");
+        });
+
+
 
     }
 
@@ -42,6 +47,7 @@ public class BSUIDTest {
         });
 
         assertTrue(BSUID.itIsAnBSUID("US.13491208655302741918"));
+        assertTrue(BSUID.itIsAnBSUID("US.ENT.13491208655302741918"));
 
         assertEquals("US", BSUID.fromString("US.13491208655302741918").region());
     }
