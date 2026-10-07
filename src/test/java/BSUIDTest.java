@@ -44,6 +44,16 @@ public class BSUIDTest {
         assertTrue(BSUID.itIsAnBSUID("US.13491208655302741918"));
 
         assertEquals("US", BSUID.fromString("US.13491208655302741918").region());
+    }
 
+
+    @Test
+    public void valid_BSUID_parent_version_from_String() {
+        assertDoesNotThrow(() -> {
+            BSUID.fromString("US.ENT.13491208655302741918");
+        });
+
+        BSUID bsuid = BSUID.fromString("US.ENT.13491208655302741918");
+        assertTrue(bsuid.isParent());
     }
 }

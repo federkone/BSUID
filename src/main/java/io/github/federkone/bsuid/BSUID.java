@@ -23,15 +23,20 @@ import java.util.regex.Pattern;
  *  <a href="https://developers.facebook.com/documentation/business-messaging/whatsapp/business-scoped-user-ids/">Facebook documentation</a>
  * */
 public final class BSUID implements java.io.Serializable, Comparable<BSUID>{
-    private static final Pattern FORMAT = Pattern.compile("^([A-Z]{2})\\.[A-Za-z0-9]{1,128}$");
+    private static final Pattern FORMAT = Pattern.compile("^(?<region>[A-Z]{2})\\.(?<ent>ENT\\.)?(?<id>[A-Za-z0-9]{1,128})$");
+
     private static Set<String> ISO_COUNTRIES = Set.of(Locale.getISOCountries());
 
-    private final String stringBSUID;
+    private final String rawString;
+    private final String id;
     private final String region;
+    private final boolean parent;
 
-    private BSUID(String stringBSUID, String region) {
-        this.stringBSUID = stringBSUID;
+    private BSUID(String rawString,String id, String region, boolean parent) {
+        this.rawString = rawString;
+        this.id = id;
         this.region = region;
+        this.parent = parent;
     }
 
     /**
@@ -48,13 +53,16 @@ public final class BSUID implements java.io.Serializable, Comparable<BSUID>{
         if (!validPattern) {
             throw new InvalidBSUIDException("Invalid pattern for BSUID");
         }
-        String region = matcher.group(1);
+        String region = matcher.group("region");
+        boolean parent = matcher.group("ent") != null;
+        String id = matcher.group("id");
+
         boolean validCountry = ISO_COUNTRIES.contains(region);
         if (!validCountry) {
             throw new InvalidBSUIDException("Invalid country for BSUID");
         }
 
-        return new BSUID(input,region);
+        return new BSUID(input,id,region,parent);
     }
 
     /**
@@ -83,7 +91,7 @@ public final class BSUID implements java.io.Serializable, Comparable<BSUID>{
      * @return String value of BSUID.
      * */
     public String value(){
-        return stringBSUID;
+        return rawString;
     }
 
     /**
@@ -91,6 +99,20 @@ public final class BSUID implements java.io.Serializable, Comparable<BSUID>{
      * */
     public String region(){
         return region;
+    }
+
+    /**
+     * @return String id from BSUID.
+     * */
+    public String id(){
+        return id;
+    }
+
+    /**
+     * @return if the BSUID represent a parent version. e.g.: US.ENT.5124553
+     * */
+    public boolean isParent(){
+        return parent;
     }
 
     /**
@@ -115,7 +137,7 @@ public final class BSUID implements java.io.Serializable, Comparable<BSUID>{
 
     @Override
     public String toString() {
-        return stringBSUID;
+        return rawString;
     }
 
     /**
@@ -124,12 +146,12 @@ public final class BSUID implements java.io.Serializable, Comparable<BSUID>{
     public boolean equals(BSUID bsuid){
         if (bsuid == null) return false;
         if (bsuid == this) return true;
-        return this.stringBSUID.equals(bsuid.value());
+        return this.rawString.equals(bsuid.value());
     }
 
     @Override
     public int compareTo(BSUID o) {
-        return this.stringBSUID.compareTo(o.value());
+        return this.rawString.compareTo(o.value());
     }
 
     /**
