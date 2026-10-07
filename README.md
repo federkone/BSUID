@@ -1,4 +1,4 @@
-# BSUID
+# BSUID WhatsApp Business
 
 [![Maven Central](https://img.shields.io/maven-central/v/io.github.federkone/BSUID)](https://central.sonatype.com/artifact/io.github.federkone/BSUID)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
