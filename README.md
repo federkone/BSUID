@@ -18,20 +18,20 @@ A tiny, dependency-free Java utility that checks whether a `String` is a valid
 <dependency>
   <groupId>io.github.federkone</groupId>
   <artifactId>BSUID</artifactId>
-  <version>1.0.1</version>
+  <version>1.1.0</version>
 </dependency>
 ```
 
 **Gradle (Kotlin DSL)**
 
 ```kotlin
-implementation("io.github.federkone:BSUID:1.0.0")
+implementation("io.github.federkone:BSUID:1.1.0")
 ```
 
 **Gradle (Groovy DSL)**
 
 ```groovy
-implementation 'io.github.federkone:BSUID:1.0.0'
+implementation 'io.github.federkone:BSUID:1.1.0'
 ```
 
 ## Usage
@@ -39,13 +39,19 @@ implementation 'io.github.federkone:BSUID:1.0.0'
 ```java
 import io.github.federkone.bsuid.BSUID;
 
-BSUID id = BSUID.fromString("US.13491208655302741918");
-System.out.println(id);
+BSUID bsuid = BSUID.fromString("US.13491208655302741918");
+System.out.println(bsuid);
 
-String region = id.region();
+String region = bsuid.region();
+String id = bsuid.id();
 
+//check if a bsuid is parent version
+boolean isParent = bsuid.isParent();
+
+//generate random BSUID
 BSUID randomId = BSUID.randomBSUID();
 
+//check if a string es a bsuid
 boolean itIsAnBSUID = BSUID.itIsAnBSUID("US.13491208655302741918");
 ```
 
